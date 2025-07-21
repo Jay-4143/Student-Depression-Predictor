@@ -34,8 +34,8 @@ pip install -r requirements.txt
 ---
 
 ## 🔗 Live Demo
-- [Frontend Streamlit App](https://your-streamlit-url.streamlit.app/)
-- [Backend Flask API (Render)](https://your-api-name.onrender.com)
+- [Frontend Streamlit App](https://student-depression-predictor-clustering.streamlit.app/)
+- [Backend Flask API (Render)](https://student-depression-predictor-6hk7.onrender.com/)
 
 ## 📌 How It Works
 1. User enters student data into the Streamlit form
