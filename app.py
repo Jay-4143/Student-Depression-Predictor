@@ -1,32 +1,55 @@
 from flask import Flask, request, jsonify
 import joblib
 import pandas as pd
+import os
 
 app = Flask(__name__)
 
-# Load everything
-model = joblib.load("depression_model.pkl")
-scaler = joblib.load("scaler.pkl")
-features = joblib.load("feature_columns.pkl")
+# Paths to required files
+MODEL_PATH = "depression_model.pkl"
+SCALER_PATH = "scaler.pkl"
+FEATURES_PATH = "feature_columns.pkl"
 
-# Determine correct mapping for cluster -> label
-# NOTE: Update based on analysis if needed
+# Load model components safely
+try:
+    if not all(os.path.exists(path) for path in [MODEL_PATH, SCALER_PATH, FEATURES_PATH]):
+        raise FileNotFoundError("One or more required model files are missing.")
+
+    model = joblib.load(MODEL_PATH)
+    scaler = joblib.load(SCALER_PATH)
+    features = joblib.load(FEATURES_PATH)
+
+except FileNotFoundError as e:
+    print(f"[ERROR] {e}")
+    raise
+
+# Cluster interpretation (can be adjusted based on your model's logic)
 CLUSTER_LABELS = {
     0: "Depressed",
     1: "Not Depressed"
 }
 
+@app.route("/", methods=["GET"])
+def home():
+    return jsonify({"message": "API is running. Use POST /predict with JSON input."})
+
 @app.route("/predict", methods=["POST"])
 def predict():
-    data = request.get_json()
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "No input data provided."}), 400
 
-    df = pd.DataFrame([data])
-    df = df.reindex(columns=features, fill_value=0)
-    scaled_input = scaler.transform(df)
-    cluster = model.predict(scaled_input)[0]
+        df = pd.DataFrame([data])
+        df = df.reindex(columns=features, fill_value=0)  # Ensures correct column order
+        scaled_input = scaler.transform(df)
+        cluster = model.predict(scaled_input)[0]
 
-    prediction = CLUSTER_LABELS.get(cluster, "Unknown")
-    return jsonify({"prediction": prediction})
+        prediction = CLUSTER_LABELS.get(cluster, "Unknown")
+        return jsonify({"prediction": prediction})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(debug=True, port=5000)
