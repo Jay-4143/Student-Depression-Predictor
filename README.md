@@ -30,3 +30,14 @@ Install required libraries using:
 
 ```bash
 pip install -r requirements.txt
+
+## 🔗 Live Demo
+- [Frontend Streamlit App](https://your-streamlit-url.streamlit.app/)
+- [Backend Flask API (Render)](https://your-api-name.onrender.com)
+
+## 📌 How It Works
+1. User enters student data into the Streamlit form
+2. The data is sent via POST to the Flask API
+3. Flask loads the model and returns if the student is depressed or not
+4. Streamlit shows the result
+
