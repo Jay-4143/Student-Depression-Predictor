@@ -34,7 +34,7 @@ st.markdown('<h5 class="subtitle">Enter student details to predict their cluster
 
 @st.cache_data
 def load_data():
-    return pd.read_csv("./cleaned_student_depression.csv")
+    return pd.read_csv("cleaned_student_depression.csv")
 
 df_train = load_data()
 
