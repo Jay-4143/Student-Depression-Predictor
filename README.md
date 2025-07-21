@@ -1,5 +1,3 @@
-# Student-Depression-Predictor
-
 # 🧠 Student Depression Prediction using Machine Learning
 
 This project predicts the mental health condition (Depressed / Not Depressed) of students using unsupervised learning (K-Means Clustering). The dataset includes various features such as sleep duration, social activities, academic performance, and lifestyle habits.
