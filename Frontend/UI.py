@@ -33,8 +33,12 @@ st.markdown('<h1 class="title">🧠 Student Depression Predictor</h1>', unsafe_a
 st.markdown('<h5 class="subtitle">Enter student details to predict their cluster and view the visualization.</h5>', unsafe_allow_html=True)
 
 @st.cache_data
+@st.cache_data
 def load_data():
-    return pd.read_csv("./cleaned_student_depression.csv")
+    path = os.path.join(os.path.dirname(__file__), "cleaned_student_depression.csv")
+    if not os.path.exists(path):
+        st.error(f"❌ File not found at: {path}")
+    return pd.read_csv(path)
 
 df_train = load_data()
 
