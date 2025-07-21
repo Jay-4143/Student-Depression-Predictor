@@ -28,8 +28,10 @@ This project predicts the mental health condition (Depressed / Not Depressed) of
 
 Install required libraries using:
 
-```bash
+``bash
 pip install -r requirements.txt
+
+---
 
 ## 🔗 Live Demo
 - [Frontend Streamlit App](https://your-streamlit-url.streamlit.app/)
