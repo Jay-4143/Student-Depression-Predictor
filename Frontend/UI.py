@@ -83,7 +83,7 @@ with right_col:
         }
 
         try:
-            res = requests.post("https://student-depression-predictor-6hk7.onrender.com/predict", json=input_dict)
+            res = requests.post("https://student-depression-predictor-6hk7.onrender.com/predict", json=input_data)
             result = res.json().get("prediction", "Error")
             prediction_result = f"🗞️ Prediction Result: **{result}**"
         except Exception as e:
