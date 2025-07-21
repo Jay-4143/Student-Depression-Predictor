@@ -24,6 +24,16 @@ This project predicts the mental health condition (Depressed / Not Depressed) of
 
 ---
 
+## ⚙️ Technologies Used
+
+- **Python**, **Pandas**, **NumPy**
+- **Scikit-learn** (KMeans, Gaussian Mixture, etc.)
+- **Flask** for API backend
+- **Streamlit** for frontend UI
+- **Joblib/Pickle** for model serialization
+- **Render** for backend deployment
+
+---
 ## 📦 Requirements
 
 Install required libraries using:
@@ -36,6 +46,8 @@ pip install -r requirements.txt
 ## 🔗 Live Demo
 - [Frontend Streamlit App](https://student-depression-predictor-clustering.streamlit.app/)
 - [Backend Flask API (Render)](https://student-depression-predictor-6hk7.onrender.com/)
+
+- > ⚠️ Backend must be running before using the frontend.
 
 ## 📌 How It Works
 1. User enters student data into the Streamlit form
