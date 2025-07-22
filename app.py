@@ -23,7 +23,7 @@ except FileNotFoundError as e:
     print(f"[ERROR] {e}")
     raise
 
-# Cluster interpretation (can be adjusted based on your model's logic)
+# Cluster interpretation
 CLUSTER_LABELS = {
     0: "Depressed",
     1: "Not Depressed"
@@ -41,7 +41,7 @@ def predict():
             return jsonify({"error": "No input data provided."}), 400
 
         df = pd.DataFrame([data])
-        df = df.reindex(columns=features, fill_value=0)  # Ensures correct column order
+        df = df.reindex(columns=features, fill_value=0)
         scaled_input = scaler.transform(df)
         cluster = model.predict(scaled_input)[0]
 
@@ -52,5 +52,5 @@ def predict():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))  # Use Render's provided port
+    port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
