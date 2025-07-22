@@ -100,9 +100,9 @@ with right_col:
 
         df_clean = df_train[features].copy().fillna(0)
 
-        if show_kmeans:
-            try:
-                st.subheader("📊 K-Means Clusters with Your Input")
+       if show_kmeans:
+                st.markdown("### 🔍 Cluster Visualization (PCA)")
+
                 features = ['Gender', 'Age', 'Academic Pressure', 'Work Pressure', 'CGPA',
                             'Study Satisfaction', 'Job Satisfaction', 'Sleep Duration',
                             'Dietary Habits', 'Have you ever had suicidal thoughts ?',
@@ -112,30 +112,13 @@ with right_col:
 
                 pca = PCA(n_components=2)
                 X_pca = pca.fit_transform(df_pca)
-                kmeans = KMeans(n_clusters=2, random_state=42)
-                clusters = kmeans.fit_predict(df_pca)
-                df_train_copy = df_train.copy()
-                df_train_copy['Cluster'] = clusters
                 pca_df = pd.DataFrame(X_pca, columns=["PC1", "PC2"])
-                pca_df["Cluster"] = df_train_copy["Cluster"].astype(str)
+                pca_df["Cluster"] = df_train["Cluster"].astype(str)
 
-                import numpy as np
-                user_point = np.array([[
-                    0,  # Gender (assuming 0 as default, since not input)
-                    age,
-                    academic_pressure,
-                    work_pressure,
-                    cgpa,
-                    0,  # Study Satisfaction (default 0)
-                    0,  # Job Satisfaction (default 0)
-                    sleep_duration,
-                    dietary_map[dietary],
-                    suicidal_map[suicidal_thoughts],
-                    study_hours,
-                    financial_stress,
-                    0,  # Family History of Mental Illness (default 0)
-                    0   # Degree (default 0)
-                ]])
+                user_point = [[1, age, academic_pressure, work_pressure, cgpa,
+                               3, 2, sleep_duration, dietary_map[dietary],
+                               suicidal_map[suicidal_thoughts], study_hours,
+                               financial_stress, 0, 10]]
 
                 user_pca = pca.transform(user_point)[0]
 
@@ -153,9 +136,6 @@ with right_col:
                 ).properties(title="K-Means Clusters with Your Input", width=700, height=400)
 
                 st.altair_chart(chart, use_container_width=True)
-            except Exception as e:
-                st.error(f"Error displaying K-Means cluster visualization: {e}")
-
         if show_elbow:
             # Elbow Curve
             st.subheader("📈 Elbow Curve for Optimal Clusters")
