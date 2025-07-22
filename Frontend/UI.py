@@ -100,42 +100,44 @@ with right_col:
 
         df_clean = df_train[features].copy().fillna(0)
 
-       if show_kmeans:
-                st.markdown("### 🔍 Cluster Visualization (PCA)")
+        if show_kmeans:
+            st.markdown("### 🔍 Cluster Visualization (PCA)")
 
-                features = ['Gender', 'Age', 'Academic Pressure', 'Work Pressure', 'CGPA',
-                            'Study Satisfaction', 'Job Satisfaction', 'Sleep Duration',
-                            'Dietary Habits', 'Have you ever had suicidal thoughts ?',
-                            'Work/Study Hours', 'Financial Stress', 'Family History of Mental Illness', 'Degree']
+            features = ['Gender', 'Age', 'Academic Pressure', 'Work Pressure', 'CGPA',
+                        'Study Satisfaction', 'Job Satisfaction', 'Sleep Duration',
+                        'Dietary Habits', 'Have you ever had suicidal thoughts ?',
+                        'Work/Study Hours', 'Financial Stress', 'Family History of Mental Illness', 'Degree']
 
-                df_pca = df_train[features].copy().fillna(0)
+            df_pca = df_train[features].copy().fillna(0)
 
-                pca = PCA(n_components=2)
-                X_pca = pca.fit_transform(df_pca)
-                pca_df = pd.DataFrame(X_pca, columns=["PC1", "PC2"])
-                pca_df["Cluster"] = df_train["Cluster"].astype(str)
+            pca = PCA(n_components=2)
+            X_pca = pca.fit_transform(df_pca)
+            pca_df = pd.DataFrame(X_pca, columns=["PC1", "PC2"])
+            pca_df["Cluster"] = df_train["Cluster"].astype(str)
 
-                user_point = [[1, age, academic_pressure, work_pressure, cgpa,
-                               3, 2, sleep_duration, dietary_map[dietary],
-                               suicidal_map[suicidal_thoughts], study_hours,
-                               financial_stress, 0, 10]]
+            user_point = [[1, age, academic_pressure, work_pressure, cgpa,
+                           3, 2, sleep_duration, dietary_map[dietary],
+                           suicidal_map[suicidal_thoughts], study_hours,
+                           financial_stress, 0, 10]]
 
-                user_pca = pca.transform(user_point)[0]
+            user_pca = pca.transform(user_point)[0]
 
-                pca_df = pd.concat([pca_df, pd.DataFrame([{
-                    "PC1": user_pca[0],
-                    "PC2": user_pca[1],
-                    "Cluster": "You"
-                }])], ignore_index=True)
+            pca_df = pd.concat([pca_df, pd.DataFrame([{
+                "PC1": user_pca[0],
+                "PC2": user_pca[1],
+                "Cluster": "You"
+            }])], ignore_index=True)
 
-                chart = alt.Chart(pca_df).mark_circle(size=80).encode(
-                    x='PC1',
-                    y='PC2',
-                    color=alt.Color('Cluster:N', scale=alt.Scale(scheme='category10')),
-                    tooltip=['Cluster']
-                ).properties(title="K-Means Clusters with Your Input", width=700, height=400)
+            chart = alt.Chart(pca_df).mark_circle(size=80).encode(
+                x='PC1',
+                y='PC2',
+                color=alt.Color('Cluster:N', scale=alt.Scale(scheme='category10')),
+                tooltip=['Cluster']
+            ).properties(title="K-Means Clusters with Your Input", width=700, height=400)
 
-                st.altair_chart(chart, use_container_width=True)
+            st.altair_chart(chart, use_container_width=True)
+
+
         if show_elbow:
             # Elbow Curve
             st.subheader("📈 Elbow Curve for Optimal Clusters")
